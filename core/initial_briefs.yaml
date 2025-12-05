@@ -1,0 +1,186 @@
+# core/default_briefs.yaml
+
+items:
+  - label: "Get Case Brief"
+    kind: "general"
+    enabled: true
+
+  - label: "Adverse Possession"
+    kind: "topic"
+    topic: "adverse possession, which is sometimes referred to as title by prescription"
+    enabled: true
+
+  - label: "Appellate Law"
+    kind: "topic"
+    topic: "appellate procedure or law"
+    enabled: true
+
+  - label: "Attorney Fees"
+    kind: "topic"
+    topic: "attorney fees as damages, but be precise because there are different statutes regarding attorneys' fees"
+    enabled: true
+
+  - label: "Attorney Fees 19-9-3"
+    kind: "topic"
+    topic: "attorney's fees or other expenses under 19-9-3 specifically, not any other statute"
+    enabled: true
+
+  - label: "Attorney's Statements to the court"
+    kind: "topic"
+    topic: "the legal significance of an attorney's statements to the court in their place or in his place"
+    enabled: true
+
+  - label: "Bankruptcy Dischargeability"
+    kind: "topic"
+    topic: "whether the particular debt is dischargeable or nondischargeable in a bankruptcy proceeding?"
+    enabled: true
+
+  - label: "Breach of Contract"
+    kind: "topic"
+    topic: "breach of contract"
+    enabled: true
+
+  - label: "Custody Gender or Discrimination"
+    kind: "topic"
+    topic: "gender or discrimination related to custody or other family law related matters"
+    enabled: true
+
+  - label: "Custody Modification/Changed Circumstances"
+    kind: "topic"
+    topic: "whether there are changed circumstances or not warranting modifying custody"
+    enabled: true
+
+  - label: "Custody Modification of Visitation or Custody?"
+    kind: "topic"
+    topic: "whether the trial court's order modified visitation rights or custody rights"
+    enabled: true
+
+  - label: "Certified Questions"
+    kind: "topic"
+    topic: "certifying a question to the Georgia Supreme Court and when it will answer the questions and when it will not"
+    enabled: true
+
+  - label: "Crimes Against Spouses"
+    kind: "topic"
+    topic: "crimes against spouses"
+    enabled: true
+
+  - label: "Contempt"
+    kind: "topic"
+    topic: "contempt"
+    enabled: true
+
+  - label: "Declaratory Judgment"
+    kind: "topic"
+    topic: "declaratory judgment"
+    enabled: true
+
+  - label: "Ejectment"
+    kind: "topic"
+    topic: "ejectment in the context of a land ownership dispute"
+    enabled: true
+
+  - label: "Equitable Caregiver"
+    kind: "topic"
+    topic: "equitable caregiver status and related law"
+    enabled: true
+
+  - label: "Evidence - parties in-court demeanor"
+    kind: "topic"
+    topic: "the court considering a parties' demeanor as evidence"
+    enabled: true
+
+  - label: "Findings and Conclusions"
+    kind: "topic"
+    topic: "whether findings of fact and/or conclusions of law are required or recommended"
+    enabled: true
+
+  - label: "Injunctive Relief"
+    kind: "topic"
+    topic: "injunctive relief such as a temporary or permanent injunction"
+    enabled: true
+
+  - label: "Jurisdiction"
+    kind: "topic"
+    topic: "whether the court has jurisdiction or not"
+    enabled: true
+
+  - label: "Jury - whether can take exhibits to deliberations"
+    kind: "topic"
+    topic: "whether a jury can take exhibits into deliberations?"
+    enabled: true
+
+  - label: "Jury - improper jury trial behavior"
+    kind: "topic"
+    topic: "improper behavior during a jury trial"
+    enabled: true
+
+  - label: "Jury - bias"
+    kind: "topic"
+    topic: "jury bias, whether or not a juror is should not be on the jury and related concepts"
+    enabled: true
+
+  - label: "Laches"
+    kind: "topic"
+    topic: "the defense of laches"
+    enabled: true
+
+  - label: "Liquidated Damages"
+    kind: "topic"
+    topic: "the difference between liquidated and unliquidated (aka non-liquidated) damages"
+    enabled: true
+
+  - label: "Modifying Judgment"
+    kind: "topic"
+    topic: "modifying an order or judgment"
+    enabled: true
+
+  - label: "New Trial Related"
+    kind: "topic"
+    topic: "a motion for new trial or any related law"
+    enabled: true
+
+  - label: "Not Responding to Motion"
+    kind: "topic"
+    topic: "the legal significance of a party not responding to a motion."
+    enabled: true
+
+  - label: "Nunc Pro Tunc"
+    kind: "topic"
+    topic: "nunc pro tunc orders"
+    enabled: true
+
+  - label: "Personal Jurisdiction and Service"
+    kind: "topic"
+    topic: "service and personal jurisdiction"
+    enabled: true
+
+  - label: "Requests for Admissions"
+    kind: "topic"
+    topic: "requests for admissions, the legal significant of them, and under what circumstances they can be withdrawn or amended"
+    enabled: true
+
+  - label: "Retroactive Statutes"
+    kind: "topic"
+    topic: "whether a statute applies retroactively"
+    enabled: true
+
+  - label: "Sanctions - Inherent power"
+    kind: "topic"
+    topic: "whether sanctions are appropriate under the inherent power of the court"
+    enabled: true
+
+  - label: "Standing/Jurisdictional"
+    kind: "topic"
+    topic: "standing and whether it is jurisdictional in nature"
+    enabled: true
+
+  - label: "TPO"
+    kind: "topic"
+    topic: "temporary protective orders"
+    enabled: true
+
+  - label: "Truancy"
+    kind: "topic"
+    topic: "the requirement to bring a child to school?"
+    enabled: true
