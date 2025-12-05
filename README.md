@@ -1,6 +1,7 @@
 # ⚖️ Caselaw Viewer
 
 A powerful desktop application for legal professionals to search, analyze, and interact with court case databases using AI.
+- Note, please contact me directly at bbc@chintellalaw.com for the database of cases itself necessary for this program to work.
 
 ---
 
