@@ -1,12 +1,19 @@
 # ⚖️ Caselaw Viewer
-
 A powerful desktop application for legal professionals to search, analyze, and interact with court case databases using AI.
-- Note, please contact me directly at bbc@chintellalaw.com for the database of cases itself necessary for this program to work.
+
+---
+
+## ⚠️ Prerequisites
+
+**Database Required** — This application requires a proprietary database of court cases to function. Please contact bbc@chintellalaw.com to obtain access.
+
+**API Access** — You'll need one of the following:
+- An OpenAI API key ([get one here](https://platform.openai.com/api-keys)), or
+- A local LMStudio instance running a compatible model (see [LMStudio Setup](#-lmstudio-setup) below)
 
 ---
 
 ## ✨ Features
-
 **Smart Search** — Find cases instantly with exact matching and intelligent fuzzy search that catches near-matches when exact results are sparse.
 
 **AI-Powered Case Briefs** — Generate comprehensive case summaries with a single click. Choose from general briefs or topic-focused analysis on specific legal issues like custody modifications, attorney fees, jurisdiction, and dozens more.
@@ -22,7 +29,6 @@ A powerful desktop application for legal professionals to search, analyze, and i
 ---
 
 ## 🚀 Installation
-
 ```bash
 # Clone the repository
 git clone https://github.com/yourusername/caselaw-viewer.git
@@ -38,27 +44,32 @@ python main.py
 ---
 
 ## 📖 Quick Start
-
 1. **Configure your API key** — Go to *File → Settings* and enter your OpenAI API key (or use a local LMStudio model).
-
 2. **Search for cases** — Type in the search bar and select which column to search. Toggle "Show Fuzzy Results" for broader matches.
-
 3. **Generate a brief** — Right-click any case and select "Get Case Brief" or choose a topic-specific brief from the menu.
-
 4. **Chat with a case** — Right-click and select "Chat About This Case" to start an interactive Q&A session.
-
 5. **Manage brief types** — Go to *File → Manage Brief Types* to create custom templates for your practice areas.
 
 ---
 
-## 🎨 Interface
+## 🖥️ LMStudio Setup
+If you prefer to run AI models locally instead of using OpenAI's API, you can use [LMStudio](https://lmstudio.ai/):
 
+1. **Download and install LMStudio** from [lmstudio.ai](https://lmstudio.ai/).
+2. **Download a compatible model** — Models like Llama 3, Mistral, or similar instruction-tuned models work well. Look for models with at least 7B parameters for reasonable quality.
+3. **Start the local server** — In LMStudio, go to the "Local Server" tab and click "Start Server." By default, it runs on `http://localhost:1234`.
+4. **Configure Caselaw Viewer** — In *File → Settings*, select "LMStudio" as your provider and ensure the server URL matches your LMStudio configuration.
+
+**Note:** Local models may produce slower or lower-quality results compared to OpenAI, depending on your hardware and the model you choose.
+
+---
+
+## 🎨 Interface
 The application features a clean dark theme optimized for extended reading sessions, with streaming AI responses that appear in real-time as they're generated.
 
 ---
 
 ## 📁 Project Structure
-
 ```
 caselaw-viewer/
 ├── config/          # Settings, tooltips, and brief type definitions
@@ -72,5 +83,4 @@ caselaw-viewer/
 ---
 
 ## 📄 License
-
 MIT License — See LICENSE file for details.
