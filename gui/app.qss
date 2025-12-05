@@ -1,0 +1,140 @@
+/* ========== Global App QSS ========== */
+
+/* Headers */
+QLabel#header {
+  padding: 15px;
+  background-color: #2196F3;
+  color: white;
+  font-size: 11pt;
+}
+
+/* Dark containers (scroll areas and chat/brief panels) */
+#darkContainer {
+  background-color: #1E1E1E;
+}
+
+/* Scroll areas */
+QScrollArea {
+  border: none;
+  background-color: #1E1E1E;
+}
+QScrollBar:vertical {
+  background-color: #2D2D2D;
+  width: 12px;
+}
+QScrollBar::handle:vertical {
+  background-color: #555555;
+  border-radius: 6px;
+}
+QScrollBar::handle:vertical:hover {
+  background-color: #666666;
+}
+
+/* Footer bars and input frames */
+QFrame#footer, QFrame#inputFrame {
+  background-color: #252525;
+  border-top: 2px solid #404040;
+}
+
+/* Primary and secondary buttons */
+QPushButton[class="primary"] {
+  background-color: #2196F3;
+  color: white;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 10pt;
+  border: none;
+}
+QPushButton[class="primary"]:hover {
+  background-color: #1976D2;
+}
+QPushButton[class="primary"]:disabled {
+  background-color: #555555;
+  color: #888888;
+}
+QPushButton[class="secondary"] {
+  padding: 10px 16px;
+  border: 1px solid #555555;
+  border-radius: 6px;
+  background-color: #3D3D3D;
+  color: #E8E8E8;
+}
+QPushButton[class="secondary"]:hover {
+  background-color: #4D4D4D;
+  border-color: #666666;
+}
+
+/* Chat input box */
+QLineEdit#chatInput {
+  padding: 10px;
+  font-size: 10pt;
+  border: 2px solid #404040;
+  border-radius: 6px;
+  background-color: #2D2D2D;
+  color: #E8E8E8;
+}
+QLineEdit#chatInput:focus {
+  border: 2px solid #2196F3;
+}
+
+/* Chat bubbles by role */
+ChatBubble#user {
+  background-color: #1E3A5F;
+  border-radius: 10px;
+  border: 1px solid #2D5A8C;
+}
+ChatBubble#assistant {
+  background-color: #2D2D2D;
+  border-radius: 10px;
+  border: 1px solid #404040;
+}
+ChatBubble QTextBrowser {
+  background-color: transparent;
+  color: #E8E8E8;
+}
+ChatBubble QLabel {
+  color: #B0C4DE;
+  background-color: transparent;
+}
+ChatBubble#assistant QLabel {
+  color: #B0B0B0;
+}
+
+/* Copy button inside chat bubble */
+QPushButton#copyBtn {
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 9pt;
+}
+QPushButton#copyBtn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* System note labels in chat */
+QLabel.systemNote {
+  padding: 8px;
+  font-size: 9pt;
+  color: #999999;
+}
+
+/* Overlay panel in Brief Types dialog */
+#overlay {
+  background-color: rgba(180, 180, 180, 100);
+}
+
+/* Edit overlay button in Brief Types dialog */
+QPushButton#editOverlayBtn[class="primary"] {
+  background-color: #2196F3;
+  color: white;
+  padding: 10px 30px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+QPushButton#editOverlayBtn[class="primary"]:hover {
+  background-color: #1976D2;
+}
