@@ -1,0 +1,37 @@
+# Keys are objectNames for widgets/actions.
+
+MainWindow:
+  results_table: "Results table. Double-click opens local files; single-click opens URLs in your browser."
+  search_box: "Type to search. Fuzzy results toggle shows similar matches when there are few exact hits."
+  column_selector: "Choose which column to search against."
+  fuzzy_checkbox: "When checked, include close (fuzzy) matches below exact matches."
+  status_label: "Recent status messages (latest at top)."
+  action_settings: "Configure model, output format, and brief folder."
+  action_set_dir: "Choose where case briefs are saved by default."
+  action_manage_briefs: "Add, edit, or disable case brief types shown in the right-click menu."
+  action_view_chats: "View and manage your saved case conversations."
+  from_date_enabled: "Enable filtering from a start date."
+  from_date: "Select the start date for filtering."
+  from_inclusive: "Include cases ON this date (checked) or only AFTER it (unchecked)."
+  to_date_enabled: "Enable filtering up to an end date."
+  to_date: "Select the end date for filtering."
+  to_inclusive: "Include cases ON this date (checked) or only BEFORE it (unchecked)."
+  include_unknown: "Include cases where the date is completely missing."
+  clear_date_filters: "Remove all date filters and show all cases."
+
+BriefTypesDialog:
+  label_edit: "Display name shown in the right-click menu."
+  kind_combo: "General = standard brief. Topic = brief focused on a specific legal issue."
+  topic_edit: "Short phrase describing the legal issue to focus on (used when Kind = Topic)."
+  template_edit: "Overrides the default template. If set, this exact text will be used for the prompt."
+  enabled_chk: "If unchecked, the brief type is hidden from the menu but remains in your config."
+  new_btn: "Clear the form to create a new brief type."
+  save_btn: "Save changes to this brief type."
+  del_btn: "Delete the selected brief type."
+  close_btn: "Close the dialog."
+
+SettingsDialog:
+  model_combo: "Pick the LLM model to use when generating briefs."
+  v_combo: "Controls verbosity for GPT-5 models."
+  fmt_combo: "Choose where generated briefs go: viewer, clipboard prompt, or a file format."
+  dir_edit: "Current folder used for saving generated briefs."

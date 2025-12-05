@@ -1,0 +1,496 @@
+items:
+- label: Attorney's Statements to the court
+  kind: topic
+  topic: the legal significance of an attorney's statements to the court in their
+    place or in his place
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: null
+- label: Bankruptcy - dischargeability
+  kind: topic
+  topic: whether the particular debt is dischargeable or nondischargeable in a bankruptcy
+    proceeding?
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: null
+- label: Battery
+  kind: topic
+  topic: the crime of battery or simple battery, or battery or simple battery in the
+    context of a family violence temporary protective order.  Also, the concept of
+    reasonable discipline or corporal punishment of a child as it relates to a family
+    violence temporary protective order.  All of these.
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: null
+- label: Breach of Contract
+  kind: topic
+  topic: breach of contract
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: null
+- label: Contempt
+  kind: topic
+  topic: contempt
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: null
+- label: Crimes Against Spouses
+  kind: topic
+  topic: crimes against spouses
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: null
+- label: Declaratory Judgment
+  kind: topic
+  topic: declaratory judgment
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: null
+- label: Evidence - parties in-court demeanor
+  kind: topic
+  topic: the court considering a parties' demeanor as evidence
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: null
+- label: Get Case Brief
+  kind: general
+  topic: null
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: null
+- label: Goodwill re Business Valuation
+  kind: topic
+  topic: is the treatment of goodwill regarding the valuation of a business in the
+    context of a divorce case and an equitable divsion of the marital assets
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: null
+- label: Liquidated Damages
+  kind: topic
+  topic: the difference between liquidated and unliquidated (aka non-liquidated) damages
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: null
+- label: Retroactive Statutes
+  kind: topic
+  topic: whether a statute applies retroactively
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: null
+- label: Sanctions - Inherent power
+  kind: topic
+  topic: whether sanctions are appropriate under the inherent power of the court
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: null
+- label: Truancy
+  kind: topic
+  topic: the requirement to bring a child to school?
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: null
+- label: Appellate Law - generally
+  kind: topic
+  topic: appellate procedure or law
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Appellate
+- label: Certified Questions
+  kind: topic
+  topic: certifying a question to the Georgia Supreme Court and when it will answer
+    the questions and when it will not
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Appellate
+- label: Attorney Fees - 19-9-3
+  kind: topic
+  topic: attorney's fees or other expenses under 19-9-3 specifically, not any other
+    statute
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Attorneys Fees
+- label: Attorney Fees - generally
+  kind: topic
+  topic: attorney fees as damages, but be precise because there are different statutes
+    regarding attorneys' fees
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Attorneys Fees
+- label: Interrogatories Generally
+  kind: topic
+  topic: the sufficiency or propriety of interrogatories in any way
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Discovery
+- label: Requests for Admissions
+  kind: topic
+  topic: requests for admissions, the legal significant of them, and under what circumstances
+    they can be withdrawn or amended
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Discovery
+- label: Alienation
+  kind: topic
+  topic: alienation in a custody or domestic lawsuit
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Domestic Law
+- label: Custody - self-executing change
+  kind: topic
+  topic: whether a court's custody order is considered self-executing and whether
+    the custody order was proper
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Domestic Law
+- label: Custody Gender/Discrimination
+  kind: topic
+  topic: gender or discrimination related to custody or other family law related matters
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Domestic Law
+- label: Custody Modification/Changed Circumstances
+  kind: topic
+  topic: whether there are changed circumstances or not warranting modifying custody
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Domestic Law
+- label: Divorce - Equitable Division
+  kind: topic
+  topic: the equitable divison of the marital estate generally as well as the responsibility
+    for any debts or liabilities
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Domestic Law
+- label: Equitable Caregiver
+  kind: topic
+  topic: equitable caregiver status and related law
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Domestic Law
+- label: Equitable Division - Source of Funds Rule
+  kind: topic
+  topic: the source of funds rule regarding equitable division of property
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Domestic Law
+- label: Federal Tax Credits
+  kind: topic
+  topic: Tax credits or anything else related to taxes in relation to custody cases.
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Domestic Law
+- label: Modification of Visitation or Custody?
+  kind: topic
+  topic: whether the trial court's order modified visitation rights or custody rights
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Domestic Law
+- label: Pre/Post Nuptials - four corners of doc
+  kind: topic
+  topic: whether a court is limited to considering the pre or post nuptial itself
+    and any disclosures related to it or can take other evidence as well
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Domestic Law
+- label: Pre/Post Nuptials - full and fair disclosure
+  kind: topic
+  topic: whether a full and fair disclosure was made regarding a pre-nuptial or post-nuptial
+    agreement
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Domestic Law
+- label: Pre/Post Nuptials Generally
+  kind: topic
+  topic: the validity and enforceability of prenuptial or postnuptial agreements
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Domestic Law
+- label: Injunctive Relief
+  kind: topic
+  topic: injunctive relief such as a temporary or permanent injunction
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Equity
+- label: Laches
+  kind: topic
+  topic: the defense of laches
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Equity
+- label: Jury - bias
+  kind: topic
+  topic: jury bias, whether or not a juror is should not be on the jury and related
+    concepts
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Jury
+- label: Jury - improper jury trial behavior
+  kind: topic
+  topic: improper behavior during a jury trial
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Jury
+- label: Jury - whether can take exhibits to deliberations
+  kind: topic
+  topic: whether a jury can take exhibits into deliberations?
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Jury
+- label: Amended pleadings
+  kind: topic
+  topic: amending court pleadings such as a complaint or answer
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Procedure
+- label: Due Process
+  kind: topic
+  topic: Due Process
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Procedure
+- label: Findings and Conclusions
+  kind: topic
+  topic: whether findings of fact and/or conclusions of law are required or recommended
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Procedure
+- label: Jurisdiction
+  kind: topic
+  topic: whether the court has jurisdiction or not
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Procedure
+- label: Modifying Judgment
+  kind: topic
+  topic: modifying an order or judgment
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Procedure
+- label: New Trial - generally
+  kind: topic
+  topic: a motion for new trial or any related law
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Procedure
+- label: Not Responding to Motion
+  kind: topic
+  topic: the legal significance of a party not responding to a motion.
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Procedure
+- label: Nunc Pro Tunc
+  kind: topic
+  topic: nunc pro tunc orders
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Procedure
+- label: Personal Jurisdiction and Service
+  kind: topic
+  topic: service and personal jurisdiction
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Procedure
+- label: Standing/Jurisdictional
+  kind: topic
+  topic: standing and whether it is jurisdictional in nature
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Procedure
+- label: Summary Judgment
+  kind: topic
+  topic: summary judgment
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Procedure
+- label: TPO - generally
+  kind: topic
+  topic: temporary protective orders
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Protective Orders
+- label: Adverse Possession
+  kind: topic
+  topic: adverse possession, which is sometimes referred to as title by prescription
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Real Estate
+- label: Ejectment
+  kind: topic
+  topic: ejectment in the context of a land ownership dispute
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Real Estate
+- label: UVTA - generally
+  kind: topic
+  topic: Uniform Fraudulent Transfers Act or similar legal issues regarding the sale
+    or transfer of real estate or othe property
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Uniform Voidable Transfers Act
+- label: UVTA - Statute of Limitations
+  kind: topic
+  topic: whether the statute of limitations applied to bar one or more claims under
+    the uniform fraudulent transfers act, sometimes called the uniform voidable transfers
+    act
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Uniform Voidable Transfers Act
