@@ -78,7 +78,3 @@ caselaw-viewer/
 └── utils/           # Date filtering, file helpers, tooltips
 ```
 
----
-
-## 📄 License
-MIT License — See LICENSE file for details.
