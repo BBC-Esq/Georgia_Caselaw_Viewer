@@ -1,0 +1,7 @@
+pyside6
+pandas
+thefuzz
+beautifulsoup4
+openpyxl
+pyyaml
+openai
