@@ -60,8 +60,6 @@ If you prefer to run AI models locally instead of using OpenAI's API, you can us
 3. **Start the local server** — In LMStudio, go to the "Local Server" tab and click "Start Server." By default, it runs on `http://localhost:1234`.
 4. **Configure Caselaw Viewer** — In *File → Settings*, select "LMStudio" as your provider and ensure the server URL matches your LMStudio configuration.
 
-**Note:** Local models may produce slower or lower-quality results compared to OpenAI, depending on your hardware and the model you choose.
-
 ---
 
 ## 🎨 Interface
