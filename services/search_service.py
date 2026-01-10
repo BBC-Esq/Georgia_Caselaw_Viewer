@@ -34,6 +34,7 @@ class SearchService(QObject):
 
     def set_data(self, data: pd.DataFrame):
         self._data = data
+        self._engine.set_source_data(data)
         self._engine.clear_cache()
 
     def set_date_filters(self, from_date: Optional[date], to_date: Optional[date]):
