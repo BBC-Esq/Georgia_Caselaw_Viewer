@@ -29,9 +29,7 @@ class DataLoaderThread(QThread):
             msg = str(e)
             logger.error(msg, exc_info=True)
             self.error_occurred.emit(msg)
-            self.data_loaded.emit(pd.DataFrame())
         except Exception as e:
             msg = f"Failed to load Excel file: {e}"
             logger.error(msg, exc_info=True)
             self.error_occurred.emit(msg)
-            self.data_loaded.emit(pd.DataFrame())

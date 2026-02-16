@@ -1,5 +1,6 @@
 import json
 import logging
+import tempfile
 from pathlib import Path
 from typing import Optional, List, Dict, Any
 from core.chat_models import CaseConversation
@@ -15,8 +16,16 @@ class ChatStorage:
     def save_conversation(self, conversation: CaseConversation) -> None:
         try:
             file_path = self.storage_dir / f"{conversation.conversation_id}.json"
-            with open(file_path, "w", encoding="utf-8") as f:
-                json.dump(conversation.to_dict(), f, indent=2, ensure_ascii=False)
+            fd, tmp_path = tempfile.mkstemp(
+                dir=str(self.storage_dir), suffix=".tmp"
+            )
+            try:
+                with open(fd, "w", encoding="utf-8") as f:
+                    json.dump(conversation.to_dict(), f, indent=2, ensure_ascii=False)
+                Path(tmp_path).replace(file_path)
+            except BaseException:
+                Path(tmp_path).unlink(missing_ok=True)
+                raise
             logger.info(f"Saved conversation {conversation.conversation_id}")
         except (IOError, OSError) as e:
             logger.error(f"Failed to save conversation: {e}", exc_info=True)

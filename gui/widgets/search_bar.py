@@ -1,5 +1,3 @@
-# gui/widgets/search_bar.py
-"""Search input widget."""
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QComboBox, QLineEdit, QLabel, QCheckBox
 from config.settings import settings

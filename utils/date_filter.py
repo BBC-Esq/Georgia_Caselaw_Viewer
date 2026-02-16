@@ -55,25 +55,29 @@ def _compute_case_date_range(
     month: pd.Int64Dtype,
     day: pd.Int64Dtype,
 ) -> Tuple[Optional[date], Optional[date], bool]:
+    try:
+        if pd.isna(year):
+            return (None, None, True)
 
-    if pd.isna(year):
+        year = int(year)
+
+        if pd.isna(month):
+            return (date(year, 1, 1), date(year, 12, 31), False)
+
+        month = int(month)
+        if not 1 <= month <= 12:
+            return (date(year, 1, 1), date(year, 12, 31), False)
+
+        if pd.isna(day):
+            first_day = date(year, month, 1)
+            last_day = _last_day_of_month(year, month)
+            return (first_day, last_day, False)
+
+        day = int(day)
+        complete_date = date(year, month, day)
+        return (complete_date, complete_date, False)
+    except (ValueError, OverflowError):
         return (None, None, True)
-
-    year = int(year)
-
-    if pd.isna(month):
-        return (date(year, 1, 1), date(year, 12, 31), False)
-
-    month = int(month)
-
-    if pd.isna(day):
-        first_day = date(year, month, 1)
-        last_day = _last_day_of_month(year, month)
-        return (first_day, last_day, False)
-
-    day = int(day)
-    complete_date = date(year, month, day)
-    return (complete_date, complete_date, False)
 
 
 def _last_day_of_month(year: int, month: int) -> date:

@@ -1,4 +1,3 @@
-# gui/models/pandas_model.py
 import pandas as pd
 from PySide6.QtCore import Qt, QAbstractTableModel, QModelIndex
 from config.settings import EXPECTED_COLUMNS
@@ -31,8 +30,11 @@ class PandasModel(QAbstractTableModel):
 
     def data(self, index, role=Qt.DisplayRole):
         if role == Qt.DisplayRole and index.isValid():
-            col_name = self._display_columns[index.column()]
-            return str(self._data.iloc[index.row()][col_name])
+            try:
+                col_name = self._display_columns[index.column()]
+                return str(self._data.iloc[index.row()][col_name])
+            except (IndexError, KeyError):
+                return None
         return None
 
     def headerData(self, section, orientation, role=Qt.DisplayRole):

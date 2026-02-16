@@ -1,5 +1,3 @@
-# core/chat_models.py
-"""Data models for case chat conversations."""
 from dataclasses import dataclass, field, asdict
 from datetime import datetime
 from typing import Literal
@@ -35,7 +33,6 @@ class CaseConversation:
         self.last_updated = datetime.now().isoformat()
 
     def get_conversation_history(self) -> list[dict]:
-        """Returns messages in OpenAI API format (excludes system message)."""
         return [
             {"role": msg.role, "content": msg.content}
             for msg in self.messages

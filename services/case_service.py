@@ -29,6 +29,10 @@ class CaseService(QObject):
 
     def generate_case_brief(self, request: BriefRequest) -> None:
         try:
+            if self._workers:
+                logger.warning("Brief generation already in progress, ignoring request")
+                return
+
             if requires_api_key(request.model) and not settings.has_openai_api_key():
                 logger.warning("OpenAI API key not configured")
                 self.api_key_missing.emit()

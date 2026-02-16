@@ -145,13 +145,16 @@ class MainWindow(QMainWindow):
 
         def open_selected():
             current = list_widget.currentItem()
-            if current:
-                conv_id = current.data(Qt.UserRole)
-                conv = chat_service.load_conversation(conv_id)
-                if conv:
-                    chat_dialog = CaseChatDialog(self, conv.file_path, conv.case_citation, conv_id)
-                    chat_dialog.show()
-                    dialog.close()
+            if not current:
+                return
+            conv_id = current.data(Qt.UserRole)
+            conv = chat_service.load_conversation(conv_id)
+            if conv:
+                chat_dialog = CaseChatDialog(self, conv.file_path, conv.case_citation, conv_id)
+                chat_dialog.show()
+                dialog.close()
+            else:
+                QMessageBox.warning(dialog, "Error", "Could not load this conversation. It may be corrupted.")
 
         def delete_selected():
             current = list_widget.currentItem()
@@ -545,6 +548,16 @@ class MainWindow(QMainWindow):
         from utils.helpers import save_brief
         save_path = build_brief_path(file_path, fmt)
 
+        def _disconnect():
+            try:
+                self.case_service.brief_ready.disconnect(_save_and_notify)
+            except (RuntimeError, TypeError):
+                pass
+            try:
+                self.case_service.error.disconnect(_on_save_error)
+            except (RuntimeError, TypeError):
+                pass
+
         def _save_and_notify(text):
             try:
                 save_brief(text, save_path, fmt)
@@ -553,9 +566,13 @@ class MainWindow(QMainWindow):
                 logger.error(f"Save failed: {e}", exc_info=True)
                 self.update_status(f"Save failed: {e}")
             finally:
-                self.case_service.brief_ready.disconnect(_save_and_notify)
+                _disconnect()
+
+        def _on_save_error(msg):
+            _disconnect()
 
         self.case_service.brief_ready.connect(_save_and_notify)
+        self.case_service.error.connect(_on_save_error)
         self.case_service.generate_case_brief(request)
 
     def _validate_save_directory(self, dir_path: Path) -> bool:

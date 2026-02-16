@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 import json
 import logging
+import tempfile
 from typing import Tuple
 
 logger = logging.getLogger(__name__)
@@ -137,37 +138,46 @@ class Settings:
     date_filter_to_enabled: bool = field(default=False)
     date_filter_to_date: str = field(default="")
 
-    def save_user_prefs(self) -> None:
+    def save_user_prefs(self) -> bool:
         try:
             PREFS_FILE.parent.mkdir(parents=True, exist_ok=True)
 
             database_relative = self._path_to_relative(self.database_path)
-            
-            with open(PREFS_FILE, "w", encoding="utf-8") as f:
-                json.dump(
-                    {
-                        "model": self.model,
-                        "export_fmt": self.export_fmt,
-                        "briefs_save_dir": self.briefs_save_dir,
-                        "brief_verbosity": self.brief_verbosity,
-                        "brief_reasoning_effort": self.brief_reasoning_effort,
-                        "chat_model": self.chat_model,
-                        "chat_verbosity": self.chat_verbosity,
-                        "chat_reasoning_effort": self.chat_reasoning_effort,
-                        "chat_storage_dir": self.chat_storage_dir,
-                        "openai_api_key": self.openai_api_key,
-                        "date_filter_from_enabled": self.date_filter_from_enabled,
-                        "date_filter_from_date": self.date_filter_from_date,
-                        "date_filter_to_enabled": self.date_filter_to_enabled,
-                        "date_filter_to_date": self.date_filter_to_date,
-                        "database_path_relative": database_relative,
-                    },
-                    f,
-                    indent=2,
-                )
+
+            data = {
+                "model": self.model,
+                "export_fmt": self.export_fmt,
+                "briefs_save_dir": self.briefs_save_dir,
+                "brief_verbosity": self.brief_verbosity,
+                "brief_reasoning_effort": self.brief_reasoning_effort,
+                "chat_model": self.chat_model,
+                "chat_verbosity": self.chat_verbosity,
+                "chat_reasoning_effort": self.chat_reasoning_effort,
+                "chat_storage_dir": self.chat_storage_dir,
+                "openai_api_key": self.openai_api_key,
+                "date_filter_from_enabled": self.date_filter_from_enabled,
+                "date_filter_from_date": self.date_filter_from_date,
+                "date_filter_to_enabled": self.date_filter_to_enabled,
+                "date_filter_to_date": self.date_filter_to_date,
+                "database_path_relative": database_relative,
+            }
+
+            fd, tmp_path = tempfile.mkstemp(
+                dir=str(PREFS_FILE.parent), suffix=".tmp"
+            )
+            try:
+                with open(fd, "w", encoding="utf-8") as f:
+                    json.dump(data, f, indent=2)
+                Path(tmp_path).replace(PREFS_FILE)
+            except BaseException:
+                Path(tmp_path).unlink(missing_ok=True)
+                raise
+
             logger.info(f"User preferences saved successfully to {PREFS_FILE}")
+            return True
         except (IOError, OSError) as e:
             logger.error(f"Failed to save user preferences: {e}", exc_info=True)
+            return False
 
     def load_user_prefs(self) -> None:
         if not PREFS_FILE.exists():

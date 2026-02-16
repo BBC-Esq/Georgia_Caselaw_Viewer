@@ -7,6 +7,7 @@ logger = logging.getLogger(__name__)
 DEFAULT_TEMPERATURE = 0.7
 DEFAULT_VERBOSITY = "medium"
 DEFAULT_REASONING_EFFORT = "medium"
+DEFAULT_TIMEOUT = 120
 LMSTUDIO_BASE_URL = "http://127.0.0.1:1234/v1"
 LMSTUDIO_API_KEY = "lm-studio"
 
@@ -44,9 +45,14 @@ class StreamWorker(QThread):
         from openai import OpenAI
         from config.settings import settings
 
+        timeout = self._kw.get("timeout", DEFAULT_TIMEOUT)
         if _is_lmstudio(self._model):
-            return OpenAI(base_url=LMSTUDIO_BASE_URL, api_key=LMSTUDIO_API_KEY)
-        return OpenAI(api_key=settings.openai_api_key)
+            return OpenAI(
+                base_url=LMSTUDIO_BASE_URL,
+                api_key=LMSTUDIO_API_KEY,
+                timeout=timeout,
+            )
+        return OpenAI(api_key=settings.openai_api_key, timeout=timeout)
 
     def _stream_response(self, client):
         if _is_lmstudio(self._model):
@@ -106,7 +112,7 @@ class StreamWorker(QThread):
                 delta = ev.delta or ""
                 if delta:
                     yield delta
-            elif ev.type == "response.error":
-                msg = str(getattr(ev, "error", "unknown error"))
-                logger.error(f"OpenAI API error: {msg}")
-                raise RuntimeError(msg)
+            elif ev.type in ("response.error", "response.failed"):
+                msg = str(getattr(ev, "error", getattr(ev, "response", "unknown error")))
+                logger.error(f"OpenAI API error ({ev.type}): {msg}")
+                raise RuntimeError(f"API error: {msg}")

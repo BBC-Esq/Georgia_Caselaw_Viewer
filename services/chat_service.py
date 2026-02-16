@@ -86,7 +86,7 @@ class ChatService(QObject):
         worker.setParent(self)
         worker.chunk.connect(self.message_chunk.emit)
         worker.done.connect(self._on_message_complete)
-        worker.error.connect(self.error.emit)
+        worker.error.connect(self._on_message_error)
         worker.finished.connect(lambda w=worker: self._cleanup(w))
 
         self._workers.append(worker)
@@ -97,6 +97,14 @@ class ChatService(QObject):
             self._active_conversation.add_message("assistant", full_message)
             self._storage.save_conversation(self._active_conversation)
             self.message_ready.emit(full_message)
+
+    def _on_message_error(self, error_msg: str) -> None:
+        if self._active_conversation and self._active_conversation.messages:
+            last = self._active_conversation.messages[-1]
+            if last.role == "user":
+                self._active_conversation.messages.pop()
+                logger.info("Rolled back user message after API error")
+        self.error.emit(error_msg)
 
     def get_active_conversation(self) -> Optional[CaseConversation]:
         return self._active_conversation

@@ -53,6 +53,8 @@ class ChatBubble(QFrame):
         self.content_browser.setMaximumHeight(h)
 
     def _copy_to_clipboard(self) -> None:
+        if not self._accumulated_text.strip():
+            return
         QApplication.clipboard().setText(self._accumulated_text)
         original_text = self.copy_btn.text()
         self.copy_btn.setText("Copied!")

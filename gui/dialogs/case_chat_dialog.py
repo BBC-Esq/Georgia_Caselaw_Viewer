@@ -182,6 +182,9 @@ class CaseChatDialog(QDialog):
         self._scroll_to_bottom()
 
     def _on_error(self, error_msg: str) -> None:
+        if self._current_assistant_bubble:
+            self._current_assistant_bubble.append_text("\n\n[Error: response failed]")
+            self._current_assistant_bubble = None
         QMessageBox.critical(self, "Error", f"Chat error: {error_msg}")
         self.input_box.setEnabled(True)
         self.send_btn.setEnabled(True)
