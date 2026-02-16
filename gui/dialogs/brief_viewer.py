@@ -1,6 +1,6 @@
 from pathlib import Path
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QFileDialog, QMessageBox, QScrollArea, QWidget, QFrame, QLabel
-from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QFileDialog, QMessageBox, QScrollArea, QWidget, QFrame, QLabel, QApplication
+from PySide6.QtCore import Qt, QTimer
 from typing import Optional
 import logging
 
@@ -55,19 +55,31 @@ class BriefViewer(QDialog):
         self.export_txt_btn.setProperty("class", "primary")
         self.export_txt_btn.setEnabled(False)
         self.export_txt_btn.clicked.connect(lambda: self._export_to_format("txt"))
+        self.copy_btn = QPushButton("Copy to Clipboard")
+        self.copy_btn.setProperty("class", "primary")
+        self.copy_btn.setEnabled(False)
+        self.copy_btn.clicked.connect(self._copy_to_clipboard)
         self.close_btn = QPushButton("Close")
         self.close_btn.setProperty("class", "secondary")
         self.close_btn.clicked.connect(self.close)
         button_layout.addWidget(self.export_pdf_btn)
         button_layout.addWidget(self.export_docx_btn)
         button_layout.addWidget(self.export_txt_btn)
+        button_layout.addWidget(self.copy_btn)
         button_layout.addStretch()
         button_layout.addWidget(self.close_btn)
         layout.addWidget(button_frame)
         self.resize(850, 750)
 
+    def _copy_to_clipboard(self) -> None:
+        if not self._accumulated_text.strip():
+            return
+        QApplication.clipboard().setText(self._accumulated_text)
+        original = self.copy_btn.text()
+        self.copy_btn.setText("Copied!")
+        QTimer.singleShot(1500, lambda: self.copy_btn.setText(original))
+
     def _export_to_format(self, fmt: str) -> None:
-        # FIX: Check for empty content before allowing export
         if not self._accumulated_text.strip():
             QMessageBox.information(self, "Nothing to Export", "There is no brief content yet.")
             return
@@ -97,3 +109,4 @@ class BriefViewer(QDialog):
         self.export_pdf_btn.setEnabled(True)
         self.export_docx_btn.setEnabled(True)
         self.export_txt_btn.setEnabled(True)
+        self.copy_btn.setEnabled(True)

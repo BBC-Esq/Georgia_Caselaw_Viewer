@@ -104,6 +104,15 @@ items:
   temperature: null
   max_output_tokens: null
   category: null
+- label: Malpracitce
+  kind: topic
+  topic: a malpractice claim or counterclaim against an attorney
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: null
 - label: Retroactive Statutes
   kind: topic
   topic: whether a statute applies retroactively
@@ -319,6 +328,15 @@ items:
   temperature: null
   max_output_tokens: null
   category: Equity
+- label: Service
+  kind: topic
+  topic: service of paperwork or the sufficiency of service
+  template: null
+  enabled: true
+  model: null
+  temperature: null
+  max_output_tokens: null
+  category: Jurisdiction
 - label: Jury - bias
   kind: topic
   topic: jury bias, whether or not a juror is should not be on the jury and related

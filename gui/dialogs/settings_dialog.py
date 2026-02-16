@@ -17,7 +17,11 @@ from config.settings import (
     LOCAL_CHAT_MODELS,
     AVAILABLE_BRIEF_MODELS,
     MODEL_PRICING,
+    REASONING_EFFORT_OPTIONS,
     get_model_pricing,
+    get_display_name,
+    get_model_from_display_name,
+    supports_reasoning_effort,
     settings,
 )
 
@@ -100,7 +104,7 @@ class SettingsDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Settings")
-        self.resize(650, 550)
+        self.resize(650, 620)
 
         vbox = QVBoxLayout(self)
 
@@ -108,7 +112,7 @@ class SettingsDialog(QDialog):
         api_layout = QVBoxLayout()
         
         api_label = QLabel("OpenAI API Key:")
-        api_help = QLabel("<small>Required for OpenAI models (gpt-5.1, gpt-4o, etc.)</small>")
+        api_help = QLabel("<small>Required for OpenAI models (gpt-5.2, gpt-5.1, gpt-4o, etc.)</small>")
         api_help.setStyleSheet("color: gray;")
         
         self.api_key_edit = QLineEdit()
@@ -136,8 +140,9 @@ class SettingsDialog(QDialog):
         row1 = QHBoxLayout()
         row1.addWidget(QLabel("Brief Model:"))
         self.model_combo = QComboBox()
-        self.model_combo.addItems(AVAILABLE_BRIEF_MODELS)
-        self.model_combo.setCurrentText(settings.model)
+        for model in AVAILABLE_BRIEF_MODELS:
+            self.model_combo.addItem(get_display_name(model), model)
+        self._set_combo_by_model(self.model_combo, settings.model)
         row1.addWidget(self.model_combo)
         model_layout.addLayout(row1)
 
@@ -154,6 +159,15 @@ class SettingsDialog(QDialog):
         row_brief_verbosity.addWidget(self.brief_v_combo)
         model_layout.addLayout(row_brief_verbosity)
 
+        row_brief_reasoning = QHBoxLayout()
+        self.brief_r_label = QLabel("Reasoning Effort:")
+        self.brief_r_combo = QComboBox()
+        self.brief_r_combo.addItems(REASONING_EFFORT_OPTIONS)
+        self.brief_r_combo.setCurrentText(settings.brief_reasoning_effort)
+        row_brief_reasoning.addWidget(self.brief_r_label)
+        row_brief_reasoning.addWidget(self.brief_r_combo)
+        model_layout.addLayout(row_brief_reasoning)
+
         separator1 = QFrame()
         separator1.setFrameShape(QFrame.HLine)
         separator1.setStyleSheet("color: #404040;")
@@ -162,8 +176,9 @@ class SettingsDialog(QDialog):
         row_chat = QHBoxLayout()
         row_chat.addWidget(QLabel("Chat Model:"))
         self.chat_model_combo = QComboBox()
-        self.chat_model_combo.addItems(LOCAL_CHAT_MODELS + AVAILABLE_OPENAI_MODELS)
-        self.chat_model_combo.setCurrentText(settings.chat_model)
+        for model in (LOCAL_CHAT_MODELS + AVAILABLE_OPENAI_MODELS):
+            self.chat_model_combo.addItem(get_display_name(model), model)
+        self._set_combo_by_model(self.chat_model_combo, settings.chat_model)
         row_chat.addWidget(self.chat_model_combo)
         model_layout.addLayout(row_chat)
 
@@ -179,6 +194,15 @@ class SettingsDialog(QDialog):
         row_chat_verbosity.addWidget(self.chat_v_label)
         row_chat_verbosity.addWidget(self.chat_v_combo)
         model_layout.addLayout(row_chat_verbosity)
+
+        row_chat_reasoning = QHBoxLayout()
+        self.chat_r_label = QLabel("Reasoning Effort:")
+        self.chat_r_combo = QComboBox()
+        self.chat_r_combo.addItems(REASONING_EFFORT_OPTIONS)
+        self.chat_r_combo.setCurrentText(settings.chat_reasoning_effort)
+        row_chat_reasoning.addWidget(self.chat_r_label)
+        row_chat_reasoning.addWidget(self.chat_r_combo)
+        model_layout.addLayout(row_chat_reasoning)
 
         model_group.setLayout(model_layout)
         vbox.addWidget(model_group)
@@ -221,14 +245,21 @@ class SettingsDialog(QDialog):
         ok_btn.clicked.connect(self.accept)
         cancel_btn.clicked.connect(self.reject)
 
-        self.model_combo.currentTextChanged.connect(self._on_brief_model_changed)
-        self.chat_model_combo.currentTextChanged.connect(self._on_chat_model_changed)
+        self.model_combo.currentIndexChanged.connect(self._on_brief_model_changed)
+        self.chat_model_combo.currentIndexChanged.connect(self._on_chat_model_changed)
 
-        self.model_combo.currentTextChanged.connect(self._update_brief_verbosity_visibility)
-        self.chat_model_combo.currentTextChanged.connect(self._update_chat_verbosity_visibility)
-        
-        self._update_brief_verbosity_visibility()
-        self._update_chat_verbosity_visibility()
+        self._update_brief_controls_visibility()
+        self._update_chat_controls_visibility()
+
+    def _set_combo_by_model(self, combo: QComboBox, model: str) -> None:
+        for i in range(combo.count()):
+            if combo.itemData(i) == model:
+                combo.setCurrentIndex(i)
+                return
+        combo.setCurrentIndex(0)
+
+    def _get_selected_model(self, combo: QComboBox) -> str:
+        return combo.currentData() or combo.currentText()
 
     def _toggle_api_key_visibility(self) -> None:
         if self.api_key_edit.echoMode() == QLineEdit.Password:
@@ -236,21 +267,33 @@ class SettingsDialog(QDialog):
         else:
             self.api_key_edit.setEchoMode(QLineEdit.Password)
 
-    def _on_brief_model_changed(self, model_name: str) -> None:
-        self.brief_cost_widget.update_costs(model_name)
+    def _on_brief_model_changed(self) -> None:
+        model = self._get_selected_model(self.model_combo)
+        self.brief_cost_widget.update_costs(model)
+        self._update_brief_controls_visibility()
 
-    def _on_chat_model_changed(self, model_name: str) -> None:
-        self.chat_cost_widget.update_costs(model_name)
+    def _on_chat_model_changed(self) -> None:
+        model = self._get_selected_model(self.chat_model_combo)
+        self.chat_cost_widget.update_costs(model)
+        self._update_chat_controls_visibility()
 
-    def _update_brief_verbosity_visibility(self) -> None:
-        is_gpt51 = self.model_combo.currentText() == "gpt-5.1"
-        self.brief_v_label.setVisible(is_gpt51)
-        self.brief_v_combo.setVisible(is_gpt51)
+    def _update_brief_controls_visibility(self) -> None:
+        model = self._get_selected_model(self.model_combo)
+        is_gpt5_family = model.startswith(("gpt-5.1", "gpt-5.2"))
+        show_reasoning = supports_reasoning_effort(model)
+        self.brief_v_label.setVisible(is_gpt5_family)
+        self.brief_v_combo.setVisible(is_gpt5_family)
+        self.brief_r_label.setVisible(show_reasoning)
+        self.brief_r_combo.setVisible(show_reasoning)
 
-    def _update_chat_verbosity_visibility(self) -> None:
-        is_gpt51 = self.chat_model_combo.currentText() == "gpt-5.1"
-        self.chat_v_label.setVisible(is_gpt51)
-        self.chat_v_combo.setVisible(is_gpt51)
+    def _update_chat_controls_visibility(self) -> None:
+        model = self._get_selected_model(self.chat_model_combo)
+        is_gpt5_family = model.startswith(("gpt-5.1", "gpt-5.2"))
+        show_reasoning = supports_reasoning_effort(model)
+        self.chat_v_label.setVisible(is_gpt5_family)
+        self.chat_v_combo.setVisible(is_gpt5_family)
+        self.chat_r_label.setVisible(show_reasoning)
+        self.chat_r_combo.setVisible(show_reasoning)
 
     def _browse_folder(self) -> None:
         path = QFileDialog.getExistingDirectory(self, "Select Case Briefs Folder", self.dir_edit.text())
@@ -258,10 +301,12 @@ class SettingsDialog(QDialog):
             self.dir_edit.setText(path)
 
     def accept(self) -> None:
-        settings.model = self.model_combo.currentText()
+        settings.model = self._get_selected_model(self.model_combo)
         settings.brief_verbosity = self.brief_v_combo.currentText()
-        settings.chat_model = self.chat_model_combo.currentText()
+        settings.brief_reasoning_effort = self.brief_r_combo.currentText()
+        settings.chat_model = self._get_selected_model(self.chat_model_combo)
         settings.chat_verbosity = self.chat_v_combo.currentText()
+        settings.chat_reasoning_effort = self.chat_r_combo.currentText()
         settings.export_fmt = self.fmt_combo.currentText()
         settings.briefs_save_dir = self.dir_edit.text()
         settings.openai_api_key = self.api_key_edit.text().strip()

@@ -79,7 +79,8 @@ class ChatService(QObject):
             messages=messages,
             model=settings.chat_model,
             temperature=DEFAULT_CHAT_TEMPERATURE,
-            verbosity=settings.chat_verbosity
+            verbosity=settings.chat_verbosity,
+            reasoning_effort=settings.chat_reasoning_effort
         )
 
         worker.setParent(self)

@@ -1,4 +1,3 @@
-# config/logging_config.py
 """Centralised logging setup."""
 import logging
 import logging.handlers

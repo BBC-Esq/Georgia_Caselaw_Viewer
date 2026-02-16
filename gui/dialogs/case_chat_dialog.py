@@ -64,7 +64,6 @@ class CaseChatDialog(QDialog):
         button_row = QHBoxLayout()
         button_row.setSpacing(8)
 
-        # Create all buttons FIRST
         self.send_btn = QPushButton("Send")
         self.send_btn.setProperty("class", "primary")
         self.send_btn.clicked.connect(self._send_message)
@@ -81,14 +80,12 @@ class CaseChatDialog(QDialog):
         self.close_btn.setProperty("class", "secondary")
         self.close_btn.clicked.connect(self.close)
 
-        # THEN set autoDefault behavior
         self.send_btn.setAutoDefault(True)
         self.send_btn.setDefault(True)
         self.clear_btn.setAutoDefault(False)
         self.save_btn.setAutoDefault(False)
         self.close_btn.setAutoDefault(False)
 
-        # Add to layout
         button_row.addWidget(self.send_btn)
         button_row.addWidget(self.clear_btn)
         button_row.addWidget(self.save_btn)
@@ -235,7 +232,9 @@ class CaseChatDialog(QDialog):
         if not conversation or len(conversation.messages) <= 1:
             QMessageBox.information(self, "No Messages", "No conversation to save yet.")
             return
-        filename = f"{self._citation.replace(' ', '_').replace('/', '-')}_chat.txt"
+        import re
+        safe_cite = re.sub(r'[<>:"/\\|?*]', '-', self._citation).replace(' ', '_')
+        filename = f"{safe_cite}_chat.txt"
         path, _ = QFileDialog.getSaveFileName(self, "Save Conversation", filename, "Text Files (*.txt)")
         if path:
             try:

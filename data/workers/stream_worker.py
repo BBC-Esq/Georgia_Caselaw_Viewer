@@ -6,6 +6,7 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_TEMPERATURE = 0.7
 DEFAULT_VERBOSITY = "medium"
+DEFAULT_REASONING_EFFORT = "medium"
 LMSTUDIO_BASE_URL = "http://127.0.0.1:1234/v1"
 LMSTUDIO_API_KEY = "lm-studio"
 
@@ -62,6 +63,8 @@ class StreamWorker(QThread):
         )
         in_think = False
         for ch in stream:
+            if not ch.choices:
+                continue
             delta = getattr(ch.choices[0].delta, "content", None)
             if delta is None:
                 continue
@@ -79,10 +82,22 @@ class StreamWorker(QThread):
             "stream": True,
         }
 
-        if self._model.startswith(("gpt-4.1", "gpt-4o")):
-            args["temperature"] = self._kw.get("temperature", DEFAULT_TEMPERATURE)
-        elif self._model == "gpt-5.1":
+        model = self._model
+
+        if model == "gpt-5.2":
             args["text"] = {"verbosity": self._kw.get("verbosity", DEFAULT_VERBOSITY)}
+            reasoning_effort = self._kw.get("reasoning_effort", DEFAULT_REASONING_EFFORT)
+            args["reasoning"] = {"effort": reasoning_effort}
+
+        elif model == "gpt-5.2-chat-latest":
+            args["text"] = {"verbosity": self._kw.get("verbosity", DEFAULT_VERBOSITY)}
+            args["reasoning"] = {"effort": "none"}
+
+        elif model == "gpt-5.1":
+            args["text"] = {"verbosity": self._kw.get("verbosity", DEFAULT_VERBOSITY)}
+
+        elif model.startswith(("gpt-4.1", "gpt-4o")):
+            args["temperature"] = self._kw.get("temperature", DEFAULT_TEMPERATURE)
 
         stream = client.responses.create(**args)
 

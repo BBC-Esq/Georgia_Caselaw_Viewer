@@ -72,6 +72,7 @@ def save_yaml(path: Path, data: dict):
 
 def save_brief(text: str, filepath: Path, fmt: Literal["txt", "docx", "pdf"]) -> Path:
     filepath = Path(filepath)
+    filepath.parent.mkdir(parents=True, exist_ok=True)
     if fmt == "txt":
         filepath.write_text(text, encoding="utf-8")
     elif fmt == "docx":
@@ -85,13 +86,18 @@ def save_brief(text: str, filepath: Path, fmt: Literal["txt", "docx", "pdf"]) ->
 def _save_as_docx(text: str, filepath: Path) -> None:
     try:
         import docx
+        from docx.shared import Pt
     except ImportError:
         raise RuntimeError("python-docx not installed")
     try:
         doc = docx.Document()
         style = doc.styles['Normal']
-        style.paragraph_format.line_spacing = 1.0
-        style.paragraph_format.space_after = 0
+        font = style.font
+        font.name = 'Times New Roman'
+        font.size = Pt(12)
+        style.paragraph_format.line_spacing = 1.15
+        style.paragraph_format.space_after = Pt(0)
+        style.paragraph_format.space_before = Pt(0)
         for line in text.splitlines():
             doc.add_paragraph(line)
         doc.save(filepath)
@@ -112,9 +118,13 @@ def _save_as_pdf(text: str, filepath: Path) -> None:
         max_width = page.rect.width - 144
 
         def wrap_line(line: str) -> List[str]:
-            words = line.split(" ")
+            if not line.strip():
+                return [""]
+            words = [w for w in line.split(" ") if w]
+            if not words:
+                return [""]
             wrapped: List[str] = []
-            current = words[0] if words else ""
+            current = words[0]
             for word in words[1:]:
                 test = f"{current} {word}"
                 if fitz.get_text_length(test, fontsize=11) <= max_width:
@@ -123,7 +133,7 @@ def _save_as_pdf(text: str, filepath: Path) -> None:
                     wrapped.append(current)
                     current = word
             wrapped.append(current)
-            return wrapped or [""]
+            return wrapped
 
         for raw_line in text.splitlines() or [""]:
             for segment in wrap_line(raw_line):
@@ -133,6 +143,7 @@ def _save_as_pdf(text: str, filepath: Path) -> None:
                     page = doc.new_page()
                     y_pos = 72
         doc.save(filepath)
+        doc.close()
     except Exception as e:
         logger.error(f"Failed to save PDF: {e}", exc_info=True)
         raise
@@ -175,7 +186,7 @@ def normalize_dataframe_columns(df: pd.DataFrame) -> pd.DataFrame:
                 'january': 1, 'february': 2, 'march': 3, 'april': 4,
                 'may': 5, 'june': 6, 'july': 7, 'august': 8,
                 'september': 9, 'october': 10, 'november': 11, 'december': 12,
-                'jan': 1, 'feb': 2, 'mar': 3, 'apr': 4, 'jun': 6,
+                'jan': 1, 'feb': 2, 'mar': 3, 'apr': 4, 'may': 5, 'jun': 6,
                 'jul': 7, 'aug': 8, 'sep': 9, 'oct': 10, 'nov': 11, 'dec': 12
             }
             

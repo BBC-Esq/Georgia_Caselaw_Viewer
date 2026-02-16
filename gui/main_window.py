@@ -282,7 +282,11 @@ class MainWindow(QMainWindow):
 
     def _show_brief_viewer(self, html_path: str, model_name: str = "") -> None:
         self._viewer = BriefViewer(self, html_path, model_name)
+        self._viewer.destroyed.connect(self._on_viewer_destroyed)
         self._viewer.show()
+
+    def _on_viewer_destroyed(self) -> None:
+        self._viewer = None
 
     def handle_search_request(self, column: str, query: str) -> None:
         if column == "file_path" and query.startswith("file:///"):
@@ -375,15 +379,20 @@ class MainWindow(QMainWindow):
             QMessageBox.critical(self, "Error", f"Failed to open file: {e}")
 
     def handle_single_click(self, index) -> None:
-        value = str(self.results_model._data.iloc[index.row(), index.column()])
-        if is_url(value):
-            QDesktopServices.openUrl(QUrl(value))
+        if self.results_model._data.empty:
+            return
+        try:
+            col_name = self.results_model._display_columns[index.column()]
+            value = str(self.results_model._data.iloc[index.row()][col_name])
+            if is_url(value):
+                QDesktopServices.openUrl(QUrl(value))
+        except (IndexError, KeyError):
+            pass
 
     def show_context_menu(self, position) -> None:
         index = self.results_table.indexAt(position)
-        if not index.isValid():
+        if not index.isValid() or self.results_model._data.empty:
             return
-        cell = str(self.results_model._data.iloc[index.row(), index.column()])
         menu = QMenu(self)
 
         citation = ""
@@ -448,8 +457,12 @@ class MainWindow(QMainWindow):
         menu.exec(self.results_table.viewport().mapToGlobal(position))
 
     def copy_cell_content(self, index) -> None:
-        content = str(self.results_model._data.iloc[index.row(), index.column()])
-        QApplication.clipboard().setText(content)
+        try:
+            col_name = self.results_model._display_columns[index.column()]
+            content = str(self.results_model._data.iloc[index.row()][col_name])
+            QApplication.clipboard().setText(content)
+        except (IndexError, KeyError):
+            pass
 
     def update_status(self, msg: str, extra: str = "") -> None:
         combined = msg + (f" | {extra}" if extra else "")
@@ -556,11 +569,11 @@ class MainWindow(QMainWindow):
             return False
 
     def _on_brief_chunk(self, text: str) -> None:
-        if hasattr(self, "_viewer"):
+        if getattr(self, "_viewer", None) is not None:
             self._viewer.append_chunk(text)
 
     def _on_brief_done(self, _full: str) -> None:
-        if hasattr(self, "_viewer"):
+        if getattr(self, "_viewer", None) is not None:
             self._viewer.finish()
 
     def _open_case_chat(self, file_path: str, citation: str) -> None:

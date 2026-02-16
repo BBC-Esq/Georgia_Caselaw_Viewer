@@ -44,6 +44,7 @@ class ChatStorage:
                     conversations.append({
                         "conversation_id": data["conversation_id"],
                         "case_citation": data["case_citation"],
+                        "file_path": data.get("file_path", ""),
                         "created_at": data.get("created_at"),
                         "last_updated": data.get("last_updated"),
                         "message_count": len(data.get("messages", []))
@@ -58,11 +59,7 @@ class ChatStorage:
 
     def list_conversations_for_case(self, file_path: str) -> List[Dict[str, Any]]:
         all_conversations = self.list_conversations()
-        return [c for c in all_conversations if self._matches_case(c["conversation_id"], file_path)]
-
-    def _matches_case(self, conversation_id: str, file_path: str) -> bool:
-        conv = self.load_conversation(conversation_id)
-        return conv is not None and conv.file_path == file_path
+        return [c for c in all_conversations if c.get("file_path") == file_path]
 
     def delete_conversation(self, conversation_id: str) -> None:
         try:

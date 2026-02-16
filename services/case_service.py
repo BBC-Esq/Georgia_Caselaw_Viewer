@@ -46,7 +46,8 @@ class CaseService(QObject):
                 messages=messages,
                 model=request.model,
                 temperature=request.temperature,
-                verbosity=request.verbosity
+                verbosity=request.verbosity,
+                reasoning_effort=settings.brief_reasoning_effort
             )
 
             worker.setParent(self)

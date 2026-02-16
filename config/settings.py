@@ -13,12 +13,34 @@ CHAT_STORAGE_DIR = PROJECT_ROOT / "CaseLawChats"
 DEFAULT_DATABASE_PATH = PROJECT_ROOT / "DATABASE_updated_dates_added_enriched_FINAL_updated_may_2025.xlsx"
 
 AVAILABLE_OPENAI_MODELS = [
+    "gpt-5.2",
+    "gpt-5.2-chat-latest",
     "gpt-5.1",
     "gpt-4.1",
     "gpt-4o",
 ]
 
+MODEL_DISPLAY_NAMES = {
+    "gpt-5.2": "gpt-5.2 (Thinking)",
+    "gpt-5.2-chat-latest": "gpt-5.2 (Instant)",
+    "gpt-5.1": "gpt-5.1",
+    "gpt-4.1": "gpt-4.1",
+    "gpt-4o": "gpt-4o",
+    "lmstudio-local": "LM Studio (Local)",
+}
+
+def get_display_name(model: str) -> str:
+    return MODEL_DISPLAY_NAMES.get(model, model)
+
+def get_model_from_display_name(display_name: str) -> str:
+    for model, name in MODEL_DISPLAY_NAMES.items():
+        if name == display_name:
+            return model
+    return display_name
+
 MODEL_PRICING = {
+    "gpt-5.2": (1.75, 14.00),
+    "gpt-5.2-chat-latest": (1.75, 14.00),
     "gpt-5.1": (1.25, 10.00),
     "gpt-4.1": (2.00, 8.00),
     "gpt-4o": (2.50, 10.00),
@@ -30,6 +52,8 @@ def get_model_pricing(model_name: str) -> tuple[float, float]:
 
 LOCAL_CHAT_MODELS = ["lmstudio-local"]
 AVAILABLE_BRIEF_MODELS = AVAILABLE_OPENAI_MODELS + LOCAL_CHAT_MODELS
+
+REASONING_EFFORT_OPTIONS = ["none", "low", "medium", "high", "xhigh"]
 
 EXPECTED_COLUMNS = [
     "reporter_citation",
@@ -66,11 +90,13 @@ class SearchDefaults:
     MIN_QUERY_LENGTH_FOR_FUZZY: int = 3
     MAX_EXACT_MATCHES_BEFORE_FUZZY: int = 5
 
-DEFAULT_MODEL = "gpt-5.1"
+DEFAULT_MODEL = "gpt-5.2"
 DEFAULT_EXPORT_FMT = "viewer"
 DEFAULT_BRIEF_VERBOSITY = "low"
+DEFAULT_BRIEF_REASONING_EFFORT = "medium"
 DEFAULT_CHAT_VERBOSITY = "low"
-DEFAULT_CHAT_MODEL = "gpt-5.1"
+DEFAULT_CHAT_REASONING_EFFORT = "medium"
+DEFAULT_CHAT_MODEL = "gpt-5.2"
 MAX_CHAT_HISTORY = 50
 MAX_STATUS_MESSAGES = 4
 
@@ -80,6 +106,9 @@ SEARCH = SearchDefaults()
 def requires_api_key(model_name: str) -> bool:
     m = (model_name or "").strip().lower()
     return not m.startswith("lmstudio")
+
+def supports_reasoning_effort(model_name: str) -> bool:
+    return model_name == "gpt-5.2"
 
 @dataclass
 class Settings:
@@ -98,8 +127,10 @@ class Settings:
     openai_api_key: str = field(default="")
     briefs_save_dir: str = field(default=str(DEFAULT_BRIEFS_SAVE_DIR))
     brief_verbosity: str = field(default=DEFAULT_BRIEF_VERBOSITY)
+    brief_reasoning_effort: str = field(default=DEFAULT_BRIEF_REASONING_EFFORT)
     chat_model: str = field(default=DEFAULT_CHAT_MODEL)
     chat_verbosity: str = field(default=DEFAULT_CHAT_VERBOSITY)
+    chat_reasoning_effort: str = field(default=DEFAULT_CHAT_REASONING_EFFORT)
     chat_storage_dir: str = field(default=str(CHAT_STORAGE_DIR))
     date_filter_from_enabled: bool = field(default=False)
     date_filter_from_date: str = field(default="")
@@ -119,8 +150,10 @@ class Settings:
                         "export_fmt": self.export_fmt,
                         "briefs_save_dir": self.briefs_save_dir,
                         "brief_verbosity": self.brief_verbosity,
+                        "brief_reasoning_effort": self.brief_reasoning_effort,
                         "chat_model": self.chat_model,
                         "chat_verbosity": self.chat_verbosity,
+                        "chat_reasoning_effort": self.chat_reasoning_effort,
                         "chat_storage_dir": self.chat_storage_dir,
                         "openai_api_key": self.openai_api_key,
                         "date_filter_from_enabled": self.date_filter_from_enabled,
@@ -148,8 +181,10 @@ class Settings:
             self.model = data.get("model", self.model)
             self.export_fmt = data.get("export_fmt", self.export_fmt)
             self.brief_verbosity = data.get("brief_verbosity", data.get("gpt5_verbosity", self.brief_verbosity))
+            self.brief_reasoning_effort = data.get("brief_reasoning_effort", self.brief_reasoning_effort)
             self.chat_model = data.get("chat_model", self.chat_model)
             self.chat_verbosity = data.get("chat_verbosity", self.chat_verbosity)
+            self.chat_reasoning_effort = data.get("chat_reasoning_effort", self.chat_reasoning_effort)
             self.openai_api_key = data.get("openai_api_key", self.openai_api_key)
             self.date_filter_from_enabled = data.get("date_filter_from_enabled", self.date_filter_from_enabled)
             self.date_filter_from_date = data.get("date_filter_from_date", self.date_filter_from_date)
